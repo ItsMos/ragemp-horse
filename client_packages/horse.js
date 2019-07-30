@@ -26,6 +26,7 @@ class Horse {
   }
 
   mount(playerRID) {
+    if (this.rider) return
     mp.events.callRemote('horse:mount', this.id, playerRID)
     this.interval = setInterval(() => {
       mp.events.callRemote('horse:update', this.id, JSON.stringify(lPlayer.position))
@@ -139,7 +140,8 @@ mp.events.add({
       } else {
         // player is riding
         let horseId = lPlayer.getVariable('ridingHorse')
-        horses[horseId].dismount()
+        if (horseId != null)
+          horses[horseId].dismount()
       }
     }
   }
